@@ -1,0 +1,8 @@
+'make_repeater-correct', (0, 70)
+'num_eights-correct', (512, 70)
+'pingpong-correct', (1024, 70)
+'missing_digits-correct', (1536, 70)
+'count_coins-correct', (2048, 70)
+'church_to_int-correct', (2560, 70)
+'add_church-correct', (3072, 70)
+'mul_church-correct', (3584, 70)
