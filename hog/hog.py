@@ -23,7 +23,10 @@ def roll_dice(num_rolls, dice=six_sided):
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
     # END PROBLEM 1
-
+    outcome = [dice() for _ in range(num_rolls)]
+    if 1 in outcome:
+        return 1
+    return sum(outcome)
 
 def piggy_points(score):
     """Return the points scored from rolling 0 dice.
@@ -33,6 +36,10 @@ def piggy_points(score):
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
     # END PROBLEM 2
+    ones_digit = score % 10
+    tens_digit = score // 10 % 10
+    return abs(ones_digit - tens_digit) + 4
+
 
 
 def take_turn(num_rolls, opponent_score, dice=six_sided, goal=GOAL_SCORE):
@@ -53,7 +60,9 @@ def take_turn(num_rolls, opponent_score, dice=six_sided, goal=GOAL_SCORE):
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
     # END PROBLEM 3
-
+    if num_rolls == 0:
+        return piggy_points(opponent_score)
+    return roll_dice(num_rolls, dice)
 
 def more_boar(player_score, opponent_score):
     """Return whether the player gets an extra turn.
@@ -75,7 +84,10 @@ def more_boar(player_score, opponent_score):
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
     # END PROBLEM 4
-
+    player_score_list = list(map(int, str(player_score)))
+    opponent_score_list = list(map(int, str(opponent_score)))
+    return min(player_score_list) < min(opponent_score_list) \
+            and max(player_score_list) > max(opponent_score_list)
 
 def next_player(who):
     """Return the other player, for a player WHO numbered 0 or 1.
@@ -113,10 +125,33 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
-    # END PROBLEM 5
-    # (note that the indentation for the problem 6 prompt (***YOUR CODE HERE***) might be misleading)
-    # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
+    while True:
+        if who == 0:
+            num_roll0 = strategy0(score0, score1)
+            if num_roll0 == 0:
+                score0 += piggy_points(score1)
+            else:
+                score0 += take_turn(num_roll0, score1, dice, goal)
+            if score0 >= goal:
+                break
+            if not more_boar(score0, score1):
+                who = next_player(who)
+        else:
+            num_roll1 = strategy1(score1, score0)
+            if num_roll1 == 0:
+                score1 += piggy_points(score0)
+            else:
+                score1 += take_turn(num_roll1, score0, dice, goal)
+            if score1 >= goal:
+                break
+            if not more_boar(score1, score0):
+                who = next_player(who)
+        # END PROBLEM 5
+        # (note that the indentation for the problem 6 prompt (***YOUR CODE HERE***) might be misleading)
+        # BEGIN PROBLEM 6
+        "*** YOUR CODE HERE ***"
+        say = say(score0, score1)
+    say = say(score0, score1)
     # END PROBLEM 6
     return score0, score1
 
@@ -198,6 +233,14 @@ def announce_highest(who, last_score=0, running_high=0):
     assert who == 0 or who == 1, 'The who argument should indicate a player.'
     # BEGIN PROBLEM 7
     "*** YOUR CODE HERE ***"
+    def say(score0, score1):
+        score = score0 if who == 0 else score1
+        high = running_high
+        if score - last_score > high:
+            high = score - last_score
+            print('Player', who, 'has reached a new maximum point gain.', high, 'point(s)!')
+        return announce_highest(who, score, high)
+    return say
     # END PROBLEM 7
 
 
