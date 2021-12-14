@@ -280,8 +280,10 @@ def make_averaged(original_function, trials_count=1000):
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    def f(*args):
+        return sum([original_function(*args) for x in range(trials_count)]) / trials_count
+    return f
     # END PROBLEM 8
-
 
 def max_scoring_num_rolls(dice=six_sided, trials_count=1000):
     """Return the number of dice (1 to 10) that gives the highest average turn score
@@ -294,6 +296,14 @@ def max_scoring_num_rolls(dice=six_sided, trials_count=1000):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    roll_num, base_score = 0, 0
+    for i in range(1, 11):
+        averaged_dice = make_averaged(roll_dice, trials_count)
+        score = averaged_dice(i, dice)
+        if base_score < score:
+            roll_num = i
+            base_score = score
+    return roll_num
     # END PROBLEM 9
 
 
@@ -334,7 +344,7 @@ def piggypoints_strategy(score, opponent_score, cutoff=8, num_rolls=6):
     returns NUM_ROLLS otherwise.
     """
     # BEGIN PROBLEM 10
-    return 6  # Replace this statement
+    return 0 if piggy_points(opponent_score) >= cutoff else num_rolls
     # END PROBLEM 10
 
 
@@ -344,7 +354,8 @@ def more_boar_strategy(score, opponent_score, cutoff=8, num_rolls=6):
     Otherwise, it returns NUM_ROLLS.
     """
     # BEGIN PROBLEM 11
-    return 6  # Replace this statement
+    return 0 if piggy_points(opponent_score) >= cutoff \
+                or more_boar(score + piggy_points(opponent_score), opponent_score) else num_rolls
     # END PROBLEM 11
 
 
@@ -354,7 +365,8 @@ def final_strategy(score, opponent_score):
     *** YOUR DESCRIPTION HERE ***
     """
     # BEGIN PROBLEM 12
-    return 6  # Replace this statement
+    return 0 if piggypoints_strategy(score, opponent_score, cutoff=score - opponent_score, num_rolls=5) == 0 \
+        else more_boar_strategy(score, opponent_score, cutoff=GOAL_SCORE, num_rolls=5)
     # END PROBLEM 12
 
 ##########################
