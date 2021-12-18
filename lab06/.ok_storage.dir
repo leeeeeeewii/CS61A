@@ -1,0 +1,7 @@
+'insert_into_all-correct', (0, 70)
+'subseqs-correct', (512, 70)
+'non_decrease_subseqs-correct', (1024, 70)
+'trade-correct', (1536, 70)
+'shuffle-correct', (2048, 70)
+'same_shape-correct', (2560, 70)
+'add_trees-correct', (3072, 70)
