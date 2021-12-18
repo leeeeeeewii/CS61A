@@ -1,0 +1,4 @@
+'map-correct', (0, 70)
+'swap-correct', (512, 70)
+'lgk_pow-correct', (1024, 70)
+'is_prime_sqrt-correct', (1536, 70)
