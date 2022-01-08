@@ -1,0 +1,5 @@
+'scheme-def-correct', (0, 70)
+'tail replicate-correct', (512, 70)
+'exp-correct', (1024, 70)
+'roman_numerals-correct', (1536, 70)
+'calculator_ops-correct', (2048, 70)
